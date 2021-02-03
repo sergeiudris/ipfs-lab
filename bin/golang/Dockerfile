@@ -26,6 +26,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg |  apt-key add - && \
 ## golang
 # RUN curl -LO https://get.golang.org/$(uname)/go_installer && chmod +x go_installer && ./go_installer && rm go_installer
 ENV PATH=$PATH:/usr/local/go/bin
+ENV GOPATH=/root/go
 ENV GO_DIST=go1.15.7.linux-amd64.tar.gz
 RUN curl -LO https://golang.org/dl/$GO_DIST \
     && tar -C /usr/local -xzf $GO_DIST \
