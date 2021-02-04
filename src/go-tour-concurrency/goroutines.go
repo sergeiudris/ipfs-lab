@@ -16,3 +16,5 @@ func main() {
 	go say("world")
 	say("hello")
 }
+
+// like go blocks in core.async... mmm, celebration and that's where they are inspired from
