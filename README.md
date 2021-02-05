@@ -1,2 +1,2 @@
 # ipfs-lab
-personal dev repo for contributing to https://github.com/ipfs repositories
+personal dev repo for contributing to https://github.com/ipfs
