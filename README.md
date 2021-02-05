@@ -11,6 +11,7 @@ me exploring golang
     - "a model for software construction"
     - Hoare's CSP (1978), Dijkstra's guarded commands (1975)
 - [Codewalk: Share Memory By Communicating](https://golang.org/doc/codewalk/sharemem/)
+- [Go Modules Reference](https://golang.org/ref/mod)
 - [IPFS Go Contributing Guidelines](https://github.com/ipfs/community/blob/master/CONTRIBUTING_GO.md)
 - [Clojure core.async (Rich Hickey)](https://www.infoq.com/presentations/clojure-core-async/)
     - "function chains are poor machines", 
