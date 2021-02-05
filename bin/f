@@ -16,6 +16,8 @@
 
 # bash f dc exec ipfs ipfs swarm peers
 
+export COMPOSE_PROJECT_NAME="ipfs-lab"
+
 ports(){
   export PORTS_PREFIX=$1
   export COMPOSE_PROJECT_NAME="deathstar-${PORTS_PREFIX}"
