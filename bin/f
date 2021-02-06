@@ -69,7 +69,10 @@ dev2(){
 
 cluster(){
   export COMPOSE_PROJECT_NAME="ipfs-lab-cluster"
-  UID_GID="$(id -u):$(id -g)" docker-compose --compatibility \
+  # export CLUSTER_SECRET=$(od -vN 32 -An -tx1 /dev/urandom | tr -d ' \n')
+  export CLUSTER_SECRET="4e2d42966a99d6f9587cfde10f82b21972136e6bd436f2ae0ad917918cbef05b"
+  # export UID_GID="$(id -u):$(id -g)" 
+  docker-compose --compatibility \
   -f dc-cluster.yml \
   "$@"
 }

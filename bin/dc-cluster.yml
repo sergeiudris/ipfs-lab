@@ -11,36 +11,45 @@ volumes:
 
 services:
 
+  # ipfs0:
+  #   image: ipfs-lab.cluster.ipfs0
+  #   build:
+  #     context: ./images/ubuntu20-go-node
+  #     dockerfile: ./Dockerfile
+  #     args:
+  #       workdir:  /ctx/go-ipfs
+  #   command: tail -f /dev/null
+  #   # ports:
+  #   #   - "4001:4001" # ipfs swarm - expose if needed/wanted
+  #   #   - "5001:5001" # ipfs api - expose if needed/wanted
+  #   #   - "8080:8080" # ipfs gateway - expose if needed/wanted
+  #   volumes:
+  #     - ./.cluster/ipfs0/data:/data/ipfs
+  #     - ./.cluster/ipfs0/.user:/root
+  #     - type: volume
+  #       source: ctx
+  #       target: /ctx
+  #       volume:
+  #         nocopy: true
+  #   stdin_open: true
+  #   tty: true
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: '4'
+  #         memory: 4096M
+
   ipfs0:
-    image: ipfs-lab.ubuntu20-go-node
-    build:
-      context: ./images/ubuntu20-go-node
-      dockerfile: ./Dockerfile
-      args:
-        workdir:  /ctx/go-ipfs
-    command: tail -f /dev/null
-#   ports:
-#     - "4001:4001" # ipfs swarm - expose if needed/wanted
-#     - "5001:5001" # ipfs api - expose if needed/wanted
-#     - "8080:8080" # ipfs gateway - expose if needed/wanted
+    image: ipfs/go-ipfs:release
+    # ports:
+    #   - "4001:4001" # ipfs swarm - expose if needed/wanted
+    #   - "5001:5001" # ipfs api - expose if needed/wanted
+    #   - "8080:8080" # ipfs gateway - expose if needed/wanted
     volumes:
       - ./.cluster/ipfs0/data:/data/ipfs
-      - ./.cluster/ipfs0/.user:/root
-      - type: volume
-        source: ctx
-        target: /ctx
-        volume:
-          nocopy: true
-    stdin_open: true
-    tty: true
-    deploy:
-      resources:
-        limits:
-          cpus: '4'
-          memory: 4096M
       
   cluster0:
-    image: ipfs-lab.ubuntu20-go-node
+    image: ipfs-lab.cluster.cluster0
     build:
       context: ./images/ubuntu20-go-node
       dockerfile: ./Dockerfile
@@ -82,37 +91,12 @@ services:
           memory: 4096M
 
   ipfs1:
-    image: ipfs-lab.ubuntu20-go-node
-    build:
-      context: ./images/ubuntu20-go-node
-      dockerfile: ./Dockerfile
-      args:
-        workdir:  /ctx/go-ipfs
-    command: tail -f /dev/null
+    image: ipfs/go-ipfs:release
     volumes:
       - ./.cluster/ipfs1/data:/data/ipfs
-      - ./.cluster/ipfs1/.user:/root
-      - type: volume
-        source: ctx
-        target: /ctx
-        volume:
-          nocopy: true
-    stdin_open: true
-    tty: true
-    deploy:
-      resources:
-        limits:
-          cpus: '4'
-          memory: 4096M
 
   cluster1:
-    image: ipfs-lab.ubuntu20-go-node
-    build:
-      context: ./images/ubuntu20-go-node
-      dockerfile: ./Dockerfile
-      args:
-        workdir:  /ctx/ipfs-cluster
-    command: tail -f /dev/null
+    image: ipfs/ipfs-cluster:latest
     depends_on:
       - ipfs1
     environment:
@@ -123,52 +107,71 @@ services:
       CLUSTER_MONITORPINGINTERVAL: 2s # Speed up peer discovery
     volumes:
       - ./.cluster/cluster1/data:/data/ipfs-cluster
-      - ./.cluster/cluster1/.user:/root
-      - type: volume
-        source: ctx
-        target: /ctx
-        volume:
-          nocopy: true
-    stdin_open: true
-    tty: true
-    deploy:
-      resources:
-        limits:
-          cpus: '4'
-          memory: 4096M
+
+  # ipfs1:
+  #   image: ipfs-lab.cluster.ipfs1
+  #   build:
+  #     context: ./images/ubuntu20-go-node
+  #     dockerfile: ./Dockerfile
+  #     args:
+  #       workdir:  /ctx/go-ipfs
+  #   command: tail -f /dev/null
+  #   volumes:
+  #     - ./.cluster/ipfs1/data:/data/ipfs
+  #     - ./.cluster/ipfs1/.user:/root
+  #     - type: volume
+  #       source: ctx
+  #       target: /ctx
+  #       volume:
+  #         nocopy: true
+  #   stdin_open: true
+  #   tty: true
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: '4'
+  #         memory: 4096M
+
+  # cluster1:
+  #   image: ipfs-lab.cluster.cluster1
+  #   build:
+  #     context: ./images/ubuntu20-go-node
+  #     dockerfile: ./Dockerfile
+  #     args:
+  #       workdir:  /ctx/ipfs-cluster
+  #   command: tail -f /dev/null
+  #   depends_on:
+  #     - ipfs1
+  #   environment:
+  #     CLUSTER_PEERNAME: cluster1
+  #     CLUSTER_SECRET: ${CLUSTER_SECRET}
+  #     CLUSTER_IPFSHTTP_NODEMULTIADDRESS: /dns4/ipfs1/tcp/5001
+  #     CLUSTER_CRDT_TRUSTEDPEERS: '*'
+  #     CLUSTER_MONITORPINGINTERVAL: 2s # Speed up peer discovery
+  #   volumes:
+  #     - ./.cluster/cluster1/data:/data/ipfs-cluster
+  #     - ./.cluster/cluster1/.user:/root
+  #     - type: volume
+  #       source: ctx
+  #       target: /ctx
+  #       volume:
+  #         nocopy: true
+  #   stdin_open: true
+  #   tty: true
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: '4'
+  #         memory: 4096M
+
 
   ipfs2:
-    image: ipfs-lab.ubuntu20-go-node
-    build:
-      context: ./images/ubuntu20-go-node
-      dockerfile: ./Dockerfile
-      args:
-        workdir:  /ctx/go-ipfs
-    command: tail -f /dev/null
+    image: ipfs/go-ipfs:release
     volumes:
       - ./.cluster/ipfs2/data:/data/ipfs
-      - ./.cluster/ipfs2/.user:/root
-      - type: volume
-        source: ctx
-        target: /ctx
-        volume:
-          nocopy: true
-    stdin_open: true
-    tty: true
-    deploy:
-      resources:
-        limits:
-          cpus: '4'
-          memory: 4096M
 
   cluster2:
-    image: ipfs-lab.ubuntu20-go-node
-    build:
-      context: ./images/ubuntu20-go-node
-      dockerfile: ./Dockerfile
-      args:
-        workdir:  /ctx/ipfs-cluster
-    command: tail -f /dev/null
+    image: ipfs/ipfs-cluster:latest
     depends_on:
       - ipfs2
     environment:
@@ -179,16 +182,59 @@ services:
       CLUSTER_MONITORPINGINTERVAL: 2s # Speed up peer discovery
     volumes:
       - ./.cluster/cluster2/data:/data/ipfs-cluster
-      - ./.cluster/cluster2/.user:/root
-      - type: volume
-        source: ctx
-        target: /ctx
-        volume:
-          nocopy: true
-    stdin_open: true
-    tty: true
-    deploy:
-      resources:
-        limits:
-          cpus: '4'
-          memory: 4096M
+
+  # ipfs2:
+  #   image: ipfs-lab.cluster.ipfs2
+  #   build:
+  #     context: ./images/ubuntu20-go-node
+  #     dockerfile: ./Dockerfile
+  #     args:
+  #       workdir:  /ctx/go-ipfs
+  #   command: tail -f /dev/null
+  #   volumes:
+  #     - ./.cluster/ipfs2/data:/data/ipfs
+  #     - ./.cluster/ipfs2/.user:/root
+  #     - type: volume
+  #       source: ctx
+  #       target: /ctx
+  #       volume:
+  #         nocopy: true
+  #   stdin_open: true
+  #   tty: true
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: '4'
+  #         memory: 4096M
+
+  # cluster2:
+  #   image: ipfs-lab.cluster.cluster2
+  #   build:
+  #     context: ./images/ubuntu20-go-node
+  #     dockerfile: ./Dockerfile
+  #     args:
+  #       workdir:  /ctx/ipfs-cluster
+  #   command: tail -f /dev/null
+  #   depends_on:
+  #     - ipfs2
+  #   environment:
+  #     CLUSTER_PEERNAME: cluster2
+  #     CLUSTER_SECRET: ${CLUSTER_SECRET}
+  #     CLUSTER_IPFSHTTP_NODEMULTIADDRESS: /dns4/ipfs2/tcp/5001
+  #     CLUSTER_CRDT_TRUSTEDPEERS: '*'
+  #     CLUSTER_MONITORPINGINTERVAL: 2s # Speed up peer discovery
+  #   volumes:
+  #     - ./.cluster/cluster2/data:/data/ipfs-cluster
+  #     - ./.cluster/cluster2/.user:/root
+  #     - type: volume
+  #       source: ctx
+  #       target: /ctx
+  #       volume:
+  #         nocopy: true
+  #   stdin_open: true
+  #   tty: true
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         cpus: '4'
+  #         memory: 4096M
