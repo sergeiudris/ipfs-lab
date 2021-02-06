@@ -11,6 +11,10 @@
 		{
 			"name": "ipfs-cluster",
 			"path": "../../ipfs-cluster"
+		},
+		{
+			"name": "go-ipfs",
+			"path": "../../go-ipfs"
 		}
 	],
 	"launch": {

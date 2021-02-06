@@ -16,7 +16,6 @@
 
 # bash f dc exec ipfs ipfs swarm peers
 
-export COMPOSE_PROJECT_NAME="ipfs-lab"
 
 ports(){
   export PORTS_PREFIX=$1
@@ -56,6 +55,7 @@ dc(){
 }
 
 dev(){
+  export COMPOSE_PROJECT_NAME="ipfs-lab-dev"
   UID_GID="$(id -u):$(id -g)" docker-compose --compatibility \
   -f dc-dev.yml \
   "$@"
@@ -64,6 +64,13 @@ dev(){
 dev2(){
   UID_GID="$(id -u):$(id -g)" docker-compose --compatibility \
   -f dc-dev2.yml \
+  "$@"
+}
+
+cluster(){
+  export COMPOSE_PROJECT_NAME="ipfs-lab-cluster"
+  UID_GID="$(id -u):$(id -g)" docker-compose --compatibility \
+  -f dc-cluster.yml \
   "$@"
 }
 

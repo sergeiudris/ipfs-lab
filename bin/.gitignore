@@ -1,1 +1,2 @@
 *.dockerapp
+.cluster
