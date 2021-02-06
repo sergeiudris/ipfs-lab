@@ -51,7 +51,7 @@ services:
   cluster0:
     image: ipfs-lab.cluster.cluster0
     build:
-      context: ./images/ubuntu20-go-node
+      context: ./cluster
       dockerfile: ./Dockerfile
       args:
         workdir:  /ctx/ipfs-cluster
