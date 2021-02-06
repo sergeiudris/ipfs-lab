@@ -56,8 +56,26 @@ RUN set -eux; \
   && wget -q -O tini https://github.com/krallin/tini/releases/download/$TINI_VERSION/$tiniArch \
   && chmod +x tini
 
-RUN mv /tmp/su-exec/su-exec-static /sbin/su-exec \
-    &&  mv /tmp/tini /sbin/tini
+# RUN mv /tmp/su-exec/su-exec-static /sbin/su-exec \
+#     &&  mv /tmp/tini /sbin/tini
+
+RUN mv /tmp/tini /sbin/tini
+
+# from https://gist.github.com/dmrub/b311d36492f230887ab0743b3af7309b
+
+RUN  set -ex; \
+     \
+     curl -o /usr/local/bin/su-exec.c https://raw.githubusercontent.com/ncopa/su-exec/${SUEXEC_VERSION}/su-exec.c; \
+     \
+     fetch_deps='gcc libc-dev'; \
+     apt-get update; \
+     apt-get install -y --no-install-recommends $fetch_deps; \
+     rm -rf /var/lib/apt/lists/*; \
+     gcc -Wall \
+         /usr/local/bin/su-exec.c -o/usr/local/bin/su-exec; \
+     chown root:root /usr/local/bin/su-exec; \
+     chmod 0755 /usr/local/bin/su-exec; \
+     rm /usr/local/bin/su-exec.c
 
 RUN apt-get update && apt-get install -y ca-certificates
 
