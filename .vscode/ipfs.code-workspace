@@ -5,10 +5,6 @@
 			"path": "../../ipfs-lab"
 		},
 		{
-			"name": "go-tour",
-			"path": "../../go-tour"
-		},
-		{
 			"name": "ipfs-cluster",
 			"path": "../../ipfs-cluster"
 		},
