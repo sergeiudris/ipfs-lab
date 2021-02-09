@@ -31,3 +31,10 @@ fmt.Println(configReflection.Interface())
     - but no: we cannot do polymorphysm without structs at all... ok, to minimum
   - that's it structure-wise: no nesting, namespaces, very very few structs, maps and interfaces (to be able to jump around with intellisense)
   - basically, typescript but with channels and go blocks
+- most important: processes and queues
+  - programs and files should be written compeltely differently: functions shouldn't mutate things, but return new maps or channels or launch goroutines and put on channels
+  - it's not evena language thing, but decoupling stuff and going away from function chains to an opetaion that has many steps, each calls a func which does not mutate args but returns new or launches goroutine
+  - while we go through this op we wait for channels to return and in the end response
+  - most of code (like 70-80% is trying to do flow control and fixes and patches of that attmept)
+  - should be async api (http and programmtic) -> operation -> it calls smaller fucntions from libarires(namespaces) that all packages share -> change state right here, in op fn, explictely -> response
+  - a package is always a lib: it either provides some standard just-functions-api, or it gives api to create state and then start a process and give it state; so the the main.go of the program should have all the processes laucnhed and the states, and then via operations we talk to the program and change state flatly within those ops, no nesting of procA laucnhes procB, procB -> procC...; instead, all launched in the main and pass channels to them as arguments, and now they talk over channels, anware (which is awesome) on who's on the other end of th channel
