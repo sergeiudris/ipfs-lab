@@ -38,3 +38,8 @@ fmt.Println(configReflection.Interface())
   - most of code (like 70-80% is trying to do flow control and fixes and patches of that attmept)
   - should be async api (http and programmtic) -> operation -> it calls smaller fucntions from libarires(namespaces) that all packages share -> change state right here, in op fn, explictely -> response
   - a package is always a lib: it either provides some standard just-functions-api, or it gives api to create state and then start a process and give it state; so the the main.go of the program should have all the processes laucnhed and the states, and then via operations we talk to the program and change state flatly within those ops, no nesting of procA laucnhes procB, procB -> procC...; instead, all launched in the main and pass channels to them as arguments, and now they talk over channels, anware (which is awesome) on who's on the other end of th channel
+
+#### PR with test into seed
+
+- PR with test on current issue
+- find the problem and create the seed for solution (repo + lib repos); repos should be named as they would be in /ipfs, but prefixed with ipfs (so username/ipfs-actualnameofthesystemrepo  username/ipfs-actualnameofthelibsrepo)
