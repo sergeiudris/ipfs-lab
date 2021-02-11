@@ -43,3 +43,8 @@ fmt.Println(configReflection.Interface())
 
 - PR with test on current issue
 - find the problem and create the seed for solution (repo + lib repos); repos should be named as they would be in /ipfs, but prefixed with ipfs (so username/ipfs-actualnameofthesystemrepo  username/ipfs-actualnameofthelibsrepo)
+
+#### docker sdk
+
+- https://docs.docker.com/engine/api/sdk/
+- https://github.com/docker/go-docker
