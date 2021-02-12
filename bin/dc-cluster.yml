@@ -71,9 +71,6 @@ services:
       CLUSTER_RESTAPI_HTTPLISTENMULTIADDRESS: /ip4/0.0.0.0/tcp/9094 # Expose API
       CLUSTER_IPFSPROXY_LISTENMULTIADDRESS: /ip4/0.0.0.0/tcp/9095
       CLUSTER_MONITORPINGINTERVAL: 2s # Speed up peer discovery
-    network_mode: "none"
-    # networks:
-    #   nonet: {}
     ports:
           # Open API port (allows ipfs-cluster-ctl usage on host)
           - "127.0.0.1:9094:9094"
