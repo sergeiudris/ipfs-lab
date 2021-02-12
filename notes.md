@@ -59,3 +59,15 @@ fmt.Println(configReflection.Interface())
 - it's both create AND keep on contributing (meaningfully, no surface, but hardest issues, deep diving), spending time and effort making creation of thers work
 - it's the same as playing existing games or visiting friends or exploring - it's not about you, but "hey, they are making these, i'll solve these issues, be sweaty and angry, but contirbute"
 - and it's a non-exclusion thing, connecting and mutually accepting; plus, it's win win benfitail - keeps us down, humble; and it's like a new game/puzzle/movie - see how new mechanism work, keeps mind non-stale and open
+
+#### resolve issues by building a robust and concise program
+
+- 70% of code creates problems, another 70% (tests) solves them, +140% of compexity, preventing features
+- like pills and bad nutrtion working together, cycle of madness, lose lose situation
+- what the program actually does is graspable, if we separate meaning from that buffer of checks and ifs created by uing function chains to build asynchronous app
+- again, goal is to solve existing issues, but most come from "hey, we can't handle what's happening, so we're stuck"; we know that, we've been there, it's not fun and draining of hope and energy
+- project and repos are nobody's property, not *ours* or *mine*: it's a holy idea of the next internet and we're privilidged and responsible for programming it, and if we write a bunch of garbage, it's not gonna fly
+- and it's not about *me, my repo, i wanna sit on top and be right*, it's about building right: does it work better, do features work and can be added, can we build even better apps this way
+- small binaries from nodejs? we have js runtime, so we can build right way, explore if things like graalvm native image for nodejs exist
+- tests (of the system features) and metrics - readable and measurable - are key; it shouldn't be a black-box 'proove it works' tests, but we should run it and measure what system can do
+
