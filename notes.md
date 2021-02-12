@@ -1,7 +1,6 @@
 
-#### ~~gloang reflection: accessing private field in struct~~
+#### gloang reflection: accessing private field in struct
 
-<s><div>
 ```golang
 
 // https://stackoverflow.com/questions/42664837/how-to-access-unexported-struct-fields/43918797#43918797
@@ -15,12 +14,10 @@ fmt.Println(configReflection.Interface())
 
 
 ```
-<div>
-</s>
 
-#### ~~golang: structs, maps, polymorphism and namespaces~~
+#### golang: structs, maps, polymorphism and namespaces
 
-- <s>golang is object oriented, no secret here
+- golang is object oriented, no secret here
 - why structs are used everywhre and not map? polymorhism - because only structs allow adding funcs on them
 - golang's namespace of a service is essentially a process and it's opertaions, and main struct defined the state of the process
 - but: structs everywhere with methods on them is incorrect, boject oriented and makes it difficult to reason about the program
@@ -40,23 +37,21 @@ fmt.Println(configReflection.Interface())
   - while we go through this op we wait for channels to return and in the end response
   - most of code (like 70-80% is trying to do flow control and fixes and patches of that attmept)
   - should be async api (http and programmtic) -> operation -> it calls smaller fucntions from libarires(namespaces) that all packages share -> change state right here, in op fn, explictely -> response
-  - a package is always a lib: it either provides some standard just-functions-api, or it gives api to create state and then start a process and give it state; so the the main.go of the program should have all the processes laucnhed and the states, and then via operations we talk to the program and change state flatly within those ops, no nesting of procA laucnhes procB, procB -> procC...; instead, all launched in the main and pass channels to them as arguments, and now they talk over channels, anware (which is awesome) on who's on the other end of th channel</s>
+  - a package is always a lib: it either provides some standard just-functions-api, or it gives api to create state and then start a process and give it state; so the the main.go of the program should have all the processes laucnhed and the states, and then via operations we talk to the program and change state flatly within those ops, no nesting of procA laucnhes procB, procB -> procC...; instead, all launched in the main and pass channels to them as arguments, and now they talk over channels, anware (which is awesome) on who's on the other end of th channel
 
 #### ~~PR with test into seed~~
 
 - <s>PR with test on current issue
 - find the problem and create the seed for solution (repo + lib repos); repos should be named as they would be in /ipfs, but prefixed with ipfs (so username/ipfs-actualnameofthesystemrepo  username/ipfs-actualnameofthelibsrepo)</s>
 
-#### ~~docker sdk~~
+#### docker sdk
 
-- <s>https://docs.docker.com/engine/api/sdk/
-- https://github.com/docker/go-docker</s>
+- https://docs.docker.com/engine/api/sdk/
+- https://github.com/docker/go-docker
 
-#### ~~contirbuting to other peoples projects(repos) is a continuous thing (with heart and effort, digging into how their creation works)~~
+#### contirbuting to other peoples projects(repos) is a continuous thing (with heart and effort, digging into how their creation works) 
 
-- <s>it's not "make N contirbutions" and graduate to your own thing
+- it's not "make N contirbutions" and graduate to your own thing
 - it's both create AND keep on contributing (meaningfully, no surface, but hardest issues, deep diving), spending time and effort making creation of thers work
 - it's the same as playing existing games or visiting friends or exploring - it's not about you, but "hey, they are making these, i'll solve these issues, be sweaty and angry, but contirbute"
-- and it's a non-exclusion thing, connecting and mutually accepting; plus, it's win win benfitail - keeps us down, humble; and it's like a new game/puzzle/movie - see how new mechanism work, keeps mind non-stale and open</s>
-
-EOF
+- and it's a non-exclusion thing, connecting and mutually accepting; plus, it's win win benfitail - keeps us down, humble; and it's like a new game/puzzle/movie - see how new mechanism work, keeps mind non-stale and open
