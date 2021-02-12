@@ -9,6 +9,11 @@ volumes:
       # device: $PWD/${WEB_APP_PATH}
       o: bind
 
+# networks:
+#   nonet:
+#     external: true
+#     name: none
+
 services:
 
   # ipfs0:
@@ -66,6 +71,9 @@ services:
       CLUSTER_RESTAPI_HTTPLISTENMULTIADDRESS: /ip4/0.0.0.0/tcp/9094 # Expose API
       CLUSTER_IPFSPROXY_LISTENMULTIADDRESS: /ip4/0.0.0.0/tcp/9095
       CLUSTER_MONITORPINGINTERVAL: 2s # Speed up peer discovery
+    network_mode: "none"
+    # networks:
+    #   nonet: {}
     ports:
           # Open API port (allows ipfs-cluster-ctl usage on host)
           - "127.0.0.1:9094:9094"
@@ -238,3 +246,58 @@ services:
   #       limits:
   #         cpus: '4'
   #         memory: 4096M
+
+
+  ipfs3:
+    image: ipfs/go-ipfs:release
+    # ports:
+    #   - "4001:4001" # ipfs swarm - expose if needed/wanted
+    #   - "5001:5001" # ipfs api - expose if needed/wanted
+    #   - "8080:8080" # ipfs gateway - expose if needed/wanted
+    volumes:
+      - ./.cluster/ipfs3/data:/data/ipfs
+      
+  cluster3:
+    image: ipfs-lab.cluster.cluster3
+    build:
+      context: ./cluster
+      dockerfile: ./Dockerfile
+      args:
+        workdir:  /ctx/ipfs-cluster
+    command: tail -f /dev/null
+    # depends_on:
+    #   - ipfs3
+    environment:
+      CLUSTER_PEERNAME: cluster3
+      # CLUSTER_SECRET: ${CLUSTER_SECRET} # From shell variable if set
+      # CLUSTER_IPFSHTTP_NODEMULTIADDRESS: /dns4/ipfs3/tcp/5001
+      # CLUSTER_CRDT_TRUSTEDPEERS: '*' # Trust all peers in Cluster
+      # CLUSTER_RESTAPI_HTTPLISTENMULTIADDRESS: /ip4/0.0.0.0/tcp/9094 # Expose API
+      # CLUSTER_IPFSPROXY_LISTENMULTIADDRESS: /ip4/0.0.0.0/tcp/9095
+      # CLUSTER_MONITORPINGINTERVAL: 2s # Speed up peer discovery
+    network_mode: "none"
+    # networks:
+    #   nonet: {}
+    # ports:
+    #       # Open API port (allows ipfs-cluster-ctl usage on host)
+    #       - "127.0.0.1:9094:9094"
+    #       - "127.0.0.1:9095:9095"
+    #       # The cluster swarm port would need  to be exposed if this container
+    #       # was to connect to cluster peers on other hosts.
+    #       # But this is just a testing cluster.
+    #       # - "9096:9096" # Cluster IPFS Proxy endpoint
+    volumes:
+      - ./.cluster/cluster3/data:/data/ipfs-cluster
+      - ./.cluster/cluster3/.user:/root
+      - type: volume
+        source: ctx
+        target: /ctx
+        volume:
+          nocopy: true
+    stdin_open: true
+    tty: true
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4096M
