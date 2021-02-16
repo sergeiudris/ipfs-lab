@@ -5,6 +5,10 @@
 			"path": "../../ipfs-lab"
 		},
 		{
+			"name": "ipfs-cube",
+			"path": "../../ipfs-cube"
+		},
+		{
 			"name": "ipfs-cluster",
 			"path": "../../ipfs-cluster"
 		},
