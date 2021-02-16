@@ -14,8 +14,23 @@
 
 
 (comment
+  
+  ;; dockerd started with:
+  ;; /usr/bin/dockerd -H fd:// -H=tcp://0.0.0.0:2375 --api-cors-header="*" --containerd=/run/containerd/containerd.sock
 
+  (println ::foo)
 
+  (js/fetch "http://localhost:2375/images/json")
+
+  (->
+   (js/fetch "http://localhost:2375/info")
+   (.then #(.json %))
+   (.then js/console.log))
+  
+  (->
+   (js/fetch "http://localhost:2375/version")
+   (.then #(.json %))
+   (.then js/console.log))
 
   ;;
   )
