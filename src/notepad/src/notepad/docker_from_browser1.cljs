@@ -14,7 +14,7 @@
 
 
 (comment
-  
+
   ;; dockerd started with:
   ;; /usr/bin/dockerd -H fd:// -H=tcp://0.0.0.0:2375 --api-cors-header="*" --containerd=/run/containerd/containerd.sock
 
@@ -26,11 +26,36 @@
    (js/fetch "http://localhost:2375/info")
    (.then #(.json %))
    (.then js/console.log))
-  
+
   (->
    (js/fetch "http://localhost:2375/version")
    (.then #(.json %))
    (.then js/console.log))
 
+  (->
+   (js/fetch "http://localhost:2375/containers/create"
+             (clj->js {"method" "post"
+                       "headers" {"Content-Type" "application/json"}
+                       "body" (-> {"Cmd"
+                                   ["date"]
+                                   #_["tail -f /dev/null"]
+                                   "AttachStdout" true
+                                   "AttachStderr" true
+                                   "Image" "ubuntu:20.04"}
+                                  (clj->js)
+                                  (js/JSON.stringify))}))
+   (.then #(.json %))
+   (.then (fn [response]
+            (js/console.log response)
+            (->
+             (js/fetch (format "http://localhost:2375/containers/%s/start" (aget response "Id"))
+                       (clj->js {"method" "post"
+                                 "headers" {"Content-Type" "application/json"}
+                                 "body" (-> {}
+                                            (clj->js)
+                                            (js/JSON.stringify))}))
+             (.then #(.json %))
+             (.then js/console.log)))))
+  
   ;;
   )
