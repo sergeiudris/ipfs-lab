@@ -9,6 +9,14 @@
 			"path": "../../ipfs-cube"
 		},
 		{
+			"name": "ipfs-deps",
+			"path": "../../ipfs-deps"
+		},
+		{
+			"name": "cljctools",
+			"path": "../../cljctools"
+		},
+		{
 			"name": "ipfs-cluster",
 			"path": "../../ipfs-cluster"
 		},
