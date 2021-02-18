@@ -59,3 +59,15 @@
   
   ;;
   )
+
+
+(comment
+  
+  (->
+   (js/Notification.requestPermission)
+   (.then (fn [result]
+            (js/console.log result))))
+  
+  
+  ;;
+  )
