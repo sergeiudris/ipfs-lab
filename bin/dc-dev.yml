@@ -1,13 +1,5 @@
 version: "3.8"
 
-networks:
-  base-network:
-    driver: bridge
-    name: ipfs-cube-network
-  # ipfs-network:
-  #   driver: bridge
-  #   name: ipfs-network
-
 volumes:
   ctx:
     driver: local
@@ -54,35 +46,3 @@ services:
         limits:
           cpus: '4'
           memory: 4096M
-
-  app-jvm:
-    image: ipfs-cube.app-jvm
-    build:
-      context: ./app-jvm
-      dockerfile: ./dev.Dockerfile
-      args:
-        workdir:  /ctx/ipfs-lab/bin/app-jvm
-    command: tail -f /dev/null
-    # command: bash f dev
-    ports:
-      - 7788:7788
-      - 3800:8080
-      # - 8085:8080
-    networks:
-      - base-network
-    # user: 1000:1000
-    volumes:
-      - ./app-jvm/.user:/root
-      - /var/run/docker.sock:/var/run/docker.sock
-      - type: volume
-        source: ctx
-        target: /ctx
-        volume:
-          nocopy: true
-    stdin_open: true
-    tty: true
-    deploy:
-      resources:
-        limits:
-          cpus: '4'
-          memory: 13000M
