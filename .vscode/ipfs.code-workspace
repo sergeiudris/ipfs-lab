@@ -17,6 +17,10 @@
 			"path": "../../cljctools"
 		},
 		{
+			"name": "mult",
+			"path": "../../mult"
+		},
+		{
 			"name": "ipfs-cluster",
 			"path": "../../ipfs-cluster"
 		},
