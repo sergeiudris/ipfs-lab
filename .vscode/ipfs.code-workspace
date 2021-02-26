@@ -21,6 +21,10 @@
 			"path": "../../mult"
 		},
 		{
+			"name": "deps-tool",
+			"path": "../../deps-tool"
+		},
+		{
 			"name": "ipfs-cluster",
 			"path": "../../ipfs-cluster"
 		},
