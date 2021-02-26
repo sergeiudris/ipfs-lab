@@ -21,6 +21,10 @@
 			"path": "../../paredit"
 		},
 		{
+			"name": "nrepl-api",
+			"path": "../../nrepl-api"
+		},
+		{
 			"name": "deps-tool",
 			"path": "../../deps-tool"
 		},
