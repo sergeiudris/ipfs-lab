@@ -13,12 +13,12 @@
 			"path": "../../ipfs-deps"
 		},
 		{
-			"name": "cljctools",
-			"path": "../../cljctools"
-		},
-		{
 			"name": "mult",
 			"path": "../../mult"
+		},
+		{
+			"name": "paredit",
+			"path": "../../paredit"
 		},
 		{
 			"name": "deps-tool",
