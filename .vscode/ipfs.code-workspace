@@ -37,27 +37,6 @@
 			"path": "../../go-ipfs"
 		}
 	],
-	"launch": {
-		"version": "0.2.0",
-		"configurations": [
-			{
-				"name": "Run Both",
-				"type": "extensionHost",
-				"request": "launch",
-				"runtimeExecutable": "${execPath}",
-				"args": [
-					"--extensionDevelopmentPath=${workspaceFolder:foo}/build",
-					"--extensionDevelopmentPath=${workspaceFolder:bar}/build"
-				]
-			}
-		],
-		"compounds": [
-		{
-		  "name": "Run Compound",
-		  "configurations": ["Run A", "Run B"]
-		}
-	  ]
-	},
 	"settings": {
 		"files.exclude": {
 		"**/.git": false
