@@ -9,20 +9,8 @@
 			"path": "../../ipfs-cube"
 		},
 		{
-			"name": "ipfs-deps",
-			"path": "../../ipfs-deps"
-		},
-		{
-			"name": "mult",
-			"path": "../../mult"
-		},
-		{
-			"name": "paredit",
-			"path": "../../paredit"
-		},
-		{
-			"name": "nrepl-api",
-			"path": "../../nrepl-api"
+			"name": "iam",
+			"path": "../../iam"
 		},
 		{
 			"name": "deps-tool",
