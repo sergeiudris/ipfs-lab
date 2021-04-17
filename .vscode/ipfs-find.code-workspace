@@ -51,6 +51,9 @@
 		"width": 120
 		},
 		"calva.showDocstringInParameterHelp": true,
-		"cljctools.mult.edn": "deathstar.lab:.vscode/mult.edn"
+		"cljctools.mult.edn": "deathstar.lab:.vscode/mult.edn",
+		"gopls": {
+			"experimentalWorkspaceModule": true,
+		}
 	}
 }
