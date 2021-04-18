@@ -1,12 +1,8 @@
 {
 	"folders": [
 		{
-			"name": "ipfs-find",
-			"path": "../../ipfs-find"
-		},
-		{
-			"name": "go-ipfs",
-			"path": "../../go-ipfs"
+			"name": "find",
+			"path": "../../find"
 		}
 	],
 	"settings": {
