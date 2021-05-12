@@ -17,6 +17,7 @@
 (defonce path (js/require "path"))
 (defonce crypto (js/require "crypto"))
 (defonce OrbitDB (js/require "orbit-db"))
+(defonce IPFS (js/require "ipfs"))
 
 #_(defn start
     [{:keys [:ipfsd
@@ -78,78 +79,134 @@
            :data-dir]
     :as opts}]
   (let []
-    #_(go
-        (let [orbitdb (<p! (.createInstance OrbitDB
-                                            (.-api ipfsd)
-                                            (clj->js {"directory" (.join path
-                                                                         data-dir
-                                                                         "orbitdb")})))
-              eventlog (<p! (.eventlog orbitdb
-                                       "github-find-foo"
-                                       (clj->js {"accessController" {"write" ["*"]}})))]
-          (println (.. eventlog -address (toString)))
-          #_(<p! (.drop eventlog))
-          (println :starting-load)
-          (time (<p! (.load eventlog)))
-          (println :loaded)
-          (let [entries (-> eventlog
-                            (.iterator  #js {"limit" -1
-                                             "reverse" true})
-                            (.collect)
-                            (vec))]
-            (println ::count-entries (count entries)))
-          #_(time
-             (doseq [i (range 0 100)
-                     :let [batch (map (fn [j]
-                                        (clj->js {:infohash (.toString (.randomBytes crypto 20) "hex")
-                                                  :metadata {:name (str "some torrent name details 12312312 foo bar " i j)
-                                                             :files (map (fn [n]
-                                                                           {:name (str "some file name details 12312312 foo bar " n)}) (range 0 10))}})) (range 0 10000))]]
-               (println :i i)
-               (doseq [[j item] (map-indexed vector batch)]
-                 (println j)
-                 (<p! (.add eventlog item #js {:pin true})))))
-
-
-          (.. eventlog -events
-              (on "replicate.progress"
-                  (fn [address hash entry progress have]
-                    (println ::replicate-progress progress)
-                    #_(println (read-string (.-value (.-payload entry))))
-                    #_(let [value (read-string (.-value (.-payload entry)))]
-                        (put! ops| value)))))))
-
     (go
       (let [orbitdb (<p! (.createInstance OrbitDB
                                           (.-api ipfsd)
                                           (clj->js {"directory" (.join path
                                                                        data-dir
-                                                                       "orbitdb")})))
-            db (<p! (.docs orbitdb
-                           "github-find-foo"
-                           (clj->js {"accessController" {"write" ["*"]}
-                                     "indexBy" "infohash"})))]
-        (println (.. db -address (toString)))
-        #_(<p! (.drop eventlog))
-        (println :starting-load)
-        (time (<p! (.load db)))
-        (println :loaded)
-        (println (count (.get db "")))
-        #_(time
-         (doseq [i (range 0 100)
-                 :let [batch (map (fn [j]
-                                    (clj->js {:infohash (.toString (.randomBytes crypto 20) "hex")
-                                              :metadata {:name (str "some torrent name details 12312312 foo bar " i j)
+                                                                       "orbitdb")})))]
+
+        (let [db (<p! (.eventlog orbitdb
+                                 "github-find-foo"
+                                 (clj->js {"accessController" {"write" ["*"]}
+                                           "indexBy" "infohash"})))]
+          (println (.. db -address (toString)))
+          #_(<p! (.drop db))
+          (println :starting-load)
+          (time (<p! (.load db)))
+          (println :loaded)
+          (<p! (-> (.add db (clj->js {:infohash "foo"}))
+                   (.catch (fn [error]
+                             (js/console.log error)))))
+          (let [entries (-> db
+                            (.iterator  #js {"limit" -1
+                                             "reverse" true})
+                            (.collect)
+                            (vec))]
+            (println ::count-entries (count entries)))
+
+          (let [entries (map (fn [i]
+                               [i (clj->js {:infohash (.toString (.randomBytes crypto 20) "hex")
+                                            :metadata {:name (str "some torrent name details 12312312 foo bar " i)
+                                                       :files (map (fn [n]
+                                                                     {:name (str "some file name details 12312312 foo bar " n)}) (range 0 10))}})]) (range 0 10000))]
+            (println :starting-to-add (count entries))
+            (time
+             (doseq [[i entry] entries]
+               (when (= 0 (mod i 100))
+                 (println i))
+               (<p! (.add db entry #js {:pin false})))))
+
+          (.. db -events
+              (on "replicate.progress"
+                  (fn [address hash entry progress have]
+                    (println ::replicate-progress progress)
+                    #_(println (read-string (.-value (.-payload entry))))
+                    #_(let [value (read-string (.-value (.-payload entry)))]
+                        (put! ops| value))))))))))
+
+
+#_(defn start
+    [{:keys [:data-dir]
+      :as opts}]
+    (let []
+      (go
+        (let [ipfs (<p! (->
+                         (.create IPFS (clj->js {:repo (.join path
+                                                              data-dir
+                                                              "ipfs")}))
+                         (.catch #(println %))))
+              orbitdb (<p! (.createInstance OrbitDB
+                                            ipfs
+                                            (clj->js {"directory" (.join path
+                                                                         data-dir
+                                                                         "orbitdb")})))]
+
+          (let [db (<p! (.eventlog orbitdb
+                                   "github-find-foo"
+                                   (clj->js {"accessController" {"write" ["*"]}
+                                             "indexBy" "infohash"})))]
+            (println (.. db -address (toString)))
+            #_(<p! (.drop db))
+            (println :starting-load)
+            (time (<p! (.load db)))
+            (println :loaded)
+            (<p! (-> (.add db (clj->js {:infohash "foo"}))
+                     (.catch (fn [error]
+                               (js/console.log error)))))
+            (let [entries (-> db
+                              (.iterator  #js {"limit" -1
+                                               "reverse" true})
+                              (.collect)
+                              (vec))]
+              (println ::count-entries (count entries)))
+
+            (let [entries (map (fn [i]
+                                 [i (clj->js {:infohash (.toString (.randomBytes crypto 20) "hex")
+                                              :metadata {:name (str "some torrent name details 12312312 foo bar " i)
                                                          :files (map (fn [n]
-                                                                       {:name (str "some file name details 12312312 foo bar " n)}) (range 0 10))}})) (range 0 10000))]]
-           (println i)
-           (<p! (.putAll db (into-array batch) #js {:pin true}))))
+                                                                       {:name (str "some file name details 12312312 foo bar " n)}) (range 0 10))}})]) (range 0 10000))]
+              (println :starting-to-add (count entries))
+              (time
+               (doseq [[i entry] entries]
+                 (when (= 0 (mod i 100))
+                   (println i))
+                 (<p! (.add db entry #js {:pin false})))))
+
+            (.. db -events
+                (on "replicate.progress"
+                    (fn [address hash entry progress have]
+                      (println ::replicate-progress progress)
+                      #_(println (read-string (.-value (.-payload entry))))
+                      #_(let [value (read-string (.-value (.-payload entry)))]
+                          (put! ops| value))))))
 
 
-        (.. db -events
-            (on "replicate.progress"
-                (fn [address hash entry progress have]
-                  (println ::replicate-progress progress)
-                  #_(println (read-string (.-value (.-payload entry))))
-                  #_(let [value (read-string (.-value (.-payload entry)))]
-                      (put! ops| value)))))))))
+          #_(let [db (<p! (.docs orbitdb
+                                 "github-find-foo"
+                                 (clj->js {"accessController" {"write" ["*"]}
+                                           "indexBy" "infohash"})))]
+
+              (println (.. db -address (toString)))
+              #_(<p! (.drop eventlog))
+              (println :starting-load)
+              (time (<p! (.load db)))
+              (println :loaded)
+
+              (time
+               (doseq [i (range 0 100)
+                       :let [batch (map (fn [j]
+                                          (clj->js {:infohash (.toString (.randomBytes crypto 20) "hex")
+                                                    :metadata {:name (str "some torrent name details 12312312 foo bar " i j)
+                                                               :files (map (fn [n]
+                                                                             {:name (str "some file name details 12312312 foo bar " n)}) (range 0 10))}})) (range 0 10000))]]
+                 (println i)
+                 (<p! (.putAll db (into-array batch) #js {:pin true}))))
+
+              (.. db -events
+                  (on "replicate.progress"
+                      (fn [address hash entry progress have]
+                        (println ::replicate-progress progress)
+                        #_(println (read-string (.-value (.-payload entry))))
+                        #_(let [value (read-string (.-value (.-payload entry)))]
+                            (put! ops| value))))))))))
