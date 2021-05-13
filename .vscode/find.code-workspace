@@ -3,6 +3,10 @@
 		{
 			"name": "find",
 			"path": "../../find"
+		},
+		{
+			"name": "peerdb",
+			"path": "../../peerdb"
 		}
 	],
 	"settings": {
