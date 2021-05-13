@@ -5,6 +5,10 @@
 			"path": "../../find"
 		},
 		{
+			"name": "bittorrent-dht-crawl",
+			"path": "../../bittorrent-dht-crawl"
+		},
+		{
 			"name": "peerdb",
 			"path": "../../peerdb"
 		}
