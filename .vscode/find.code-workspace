@@ -11,6 +11,10 @@
 		{
 			"name": "peerdb",
 			"path": "../../peerdb"
+		},
+		{
+			"name": "runtime",
+			"path": "../../runtime"
 		}
 	],
 	"settings": {
