@@ -13,8 +13,8 @@
 			"path": "../../peerdb"
 		},
 		{
-			"name": "runtime",
-			"path": "../../runtime"
+			"name": "cljctools",
+			"path": "../../cljctools"
 		}
 	],
 	"settings": {
