@@ -5,12 +5,16 @@
 			"path": "../../find"
 		},
 		{
+			"name": "peerdb",
+			"path": "../../peerdb"
+		},
+		{
 			"name": "bittorrent",
 			"path": "../../bittorrent"
 		},
 		{
-			"name": "peerdb",
-			"path": "../../peerdb"
+			"name": "ipfs",
+			"path": "../../ipfs"
 		},
 		{
 			"name": "cljctools",
