@@ -1,2 +1,0 @@
-{:paths ["src"]
- :deps {clj-systemtray/clj-systemtray {:mvn/version "0.2.1"}}}
