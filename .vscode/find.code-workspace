@@ -9,14 +9,6 @@
 			"path": "../../peerdb"
 		},
 		{
-			"name": "bittorrent",
-			"path": "../../bittorrent"
-		},
-		{
-			"name": "ipfs",
-			"path": "../../ipfs"
-		},
-		{
 			"name": "cljctools",
 			"path": "../../cljctools"
 		}
