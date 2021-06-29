@@ -5,10 +5,6 @@
 			"path": "../../find"
 		},
 		{
-			"name": "peerdb",
-			"path": "../../peerdb"
-		},
-		{
 			"name": "cljctools",
 			"path": "../../cljctools"
 		}
