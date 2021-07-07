@@ -1,0 +1,48 @@
+version: "3.8"
+
+volumes:
+  ctx:
+    driver: local
+    driver_opts:
+      type: none
+      device: ../
+      # device: $PWD/${WEB_APP_PATH}
+      o: bind
+
+services:
+
+  golang:
+    image: go-tour.golang
+    build:
+      context: ./golang
+      dockerfile: ./Dockerfile
+      args:
+        workdir:  /ctx
+    command: tail -f /dev/null
+    # command: bash f dev
+    # ports:
+    #   - 8080:8080
+    # networks:
+    #   - base-network
+    # user: 1000:1000
+    volumes:
+      - ./golang/.user:/root
+      # - ../src:/root/go/src
+      # - type: volume
+      #   source: deathstar-dir
+      #   target: /root/.deathstar
+      #   volume:
+      #     nocopy: true
+      # - ./app/.peer${PORTS_PREFIX}:/root/.deathstar
+      - type: volume
+        source: ctx
+        target: /ctx
+        volume:
+          nocopy: true
+    stdin_open: true
+    tty: true
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4096M
